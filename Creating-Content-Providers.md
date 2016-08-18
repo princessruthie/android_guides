@@ -83,8 +83,8 @@ Now that we've defined what our database will look like, we need to actually cre
 ```java
     public class MovieDBHelper extends SQLiteOpenHelper{
         private static final int DATABASE_VERSION = 1;
-        private static final String DATABASE_NAME = "movieList.db"; 
- 
+        private static final String DATABASE_NAME = "movieList.db";
+
         public MovieDBHelper(Context context){
            super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
@@ -387,6 +387,7 @@ The update and delete methods take in a selection string and arguments to define
         return rows;
     }
 ```
+
 
 The code seen above, as well as a sample project can be found on Github: https://github.com/androidessence/MovieDatabase
 
