@@ -49,7 +49,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 	// We are given a few useful parameters to help us work out if we need to load some more data,
 	// but first we check if we are waiting for the previous load to finish.
 	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) 
+	public void onScrolled(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) 
         {
 		// If the total item count is zero and the previous isn't, assume the
 		// list is invalidated and should be reset back to initial state
@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
        // Configure the RecyclerView
        RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvContacts);
        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-       recyclerView.setLayoutManager(linearLayoutManager);
+       rvItems.setLayoutManager(linearLayoutManager);
        // Add the scroll listener
        rvItems.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
            @Override

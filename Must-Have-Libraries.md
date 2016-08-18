@@ -171,8 +171,7 @@ Essentially this method is used to enable your code to short-circuit before exec
 
 ### Drawing
 
- * [Leonids](https://github.com/plattysoft/Leonids) - Simple and easy particle effects ([See Tutorial](http://www.plattysoft.com/2014/05/30/leonids-particle-system-lib/))
- * [AChartEngine](http://jaxenter.com/effort-free-graphs-on-android-with-achartengine-46199.html) - This is a charting software library for Android applications
+ * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - A powerful Android chart view / graph view library, supporting line- bar- pie- radar- bubble- and candlestick charts as well as scaling, dragging and animations.
  * [HoloGraphLibrary](https://github.com/Androguide/HoloGraphLibrary) - Newer graphing library
  * [EazeGraph](https://github.com/blackfizz/EazeGraph) - Another newer library with potential
  * [AndroidCharts](https://github.com/dacer/AndroidCharts) - Easy to use charts
@@ -180,7 +179,8 @@ Essentially this method is used to enable your code to short-circuit before exec
  * [AndroidPlot](http://androidplot.com/docs/quickstart/) - plotting library for Android
  * [WilliamChart](https://github.com/diogobernardino/WilliamChart) - Flexible charting library with useful motion capabilities.
  * [HelloCharts](https://github.com/lecho/hellocharts-android) - Charts/graphs library for Android with support for scaling, scrolling and animations.
- * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - A powerful Android chart view / graph view library, supporting line- bar- pie- radar- bubble- and candlestick charts as well as scaling, dragging and animations.
+ * [Leonids](https://github.com/plattysoft/Leonids) - Simple and easy particle effects ([See Tutorial](http://www.plattysoft.com/2014/05/30/leonids-particle-system-lib/))
+ * [AChartEngine](http://jaxenter.com/effort-free-graphs-on-android-with-achartengine-46199.html) - This is a charting software library for Android applications
 
 ### Image Processing
 
@@ -190,6 +190,7 @@ Essentially this method is used to enable your code to short-circuit before exec
 * [picasso-transformations](https://github.com/wasabeef/picasso-transformations) - Library for processing images via Picasso
 * [glide-transformations](https://github.com/wasabeef/glide-transformations) - Process images via Glide
 * [ImageEffectFilter](https://github.com/mnafian/ImageEffectFilter) - Sample code for processing images.
+* [VidEffects](https://github.com/krazykira/VidEffects) - Apply manipulation effects to videos.
 
 ### Scanning
 
@@ -243,14 +244,13 @@ This is a list of popular scrolling and parallax libraries:
 
 Check out the following resources for finding libraries:
 
- * [Android Elementals](https://github.com/cesards/AndroidElementals)
+ * <http://android-arsenal.com>
  * [Wasabeef Core Libraries](https://github.com/wasabeef/awesome-android-libraries)
  * [Wasabeef UI Libraries](https://github.com/wasabeef/awesome-android-ui)
+ * [Snowdream Android Library Repository](https://snowdream.github.io/awesome-android/)
  * [Android-Libs.com](http://android-libs.com)
  * <http://androidlibs.org/>
  * <http://appdevwiki.com/wiki/show/HomePage>
- * <http://androidweekly.net/toolbox>
- * <http://android-arsenal.com>
  * <http://www.libtastic.com>
 
 ## References

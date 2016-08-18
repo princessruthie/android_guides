@@ -273,6 +273,15 @@ public class MyParentFragment extends Fragment implements EditNameDialogListener
 }
 ```
 
+**Troubleshooting**
+
+If you are having any issues, be sure to use the checklist below:
+
+ * In parent fragment, before calling `dialogFragment.show()`, are you calling `setTargetFragment` and passing in the correct fragment as the target?
+ * In the dialog fragment, before calling `dismiss()`, are you calling `listener.someCallbackMethod()` on a listener casted from the `getTargetFragment()` passed in above? 
+ * Have you correctly implemented the interface and callback method fired i.e `listener.someCallbackMethod()` inside of the parent fragment?
+ * Try breakpointing each of those lines to make sure the target fragment is set property and the callback method is being executed. 
+
 With that, the two fragments are able to pass data back and forth. 
 
 ## Styling Dialogs
@@ -570,6 +579,9 @@ The native date and time pickers for Android are another example of specialized 
 If you wish for the containing activity to receive the date or time selected by the dialog, you should ensure that the Activity implements the respective interface. If we want the date picker to be shown from within another dialog fragment, refer to [[setting a target fragment|Using-DialogFragment#passing-data-to-parent-fragment]]. For instance, for a date picker fragment, you will want to ensure that the activity implements the `OnDateSetListener` interface:
 
 ```java
+
+import java.util.Calendar;  // do not import java.icu.utils.Calendar
+
 public class DatePickerFragment extends DialogFragment {
 
     @Override

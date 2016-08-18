@@ -12,6 +12,7 @@ The following template projects are built to act as a starting point for a prefe
  * <https://github.com/android10/Android-CleanArchitecture>
  * <https://github.com/googlesamples/android-architecture>
  * <https://github.com/antoniolg/androidmvp>
+ * <https://labs.ribot.co.uk/approaching-android-with-mvvm-8ceec02d5442>
 
 ## References
 
@@ -22,6 +23,9 @@ Clean architecture:
 * <http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/>
 * <http://fernandocejas.com/2015/07/18/architecting-android-the-evolution/>
 * <https://github.com/dmilicic/android-clean-sample-app>
+* <https://speakerdeck.com/romainpiel/ingredients-for-a-healthy-codebase/>
+* <http://macoscope.com/blog/model-view-presenter-architecture-in-android-applications/>
+* <https://github.com/macoscope/RoomBookerMVP/tree/master/mvp/src/main/java/com/macoscope/>
 
 MVP Pattern:
 

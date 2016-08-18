@@ -12,7 +12,7 @@ If the debugger isn't working, check the [[guide section below|Troubleshooting-C
 
 ### Network Traffic Inspection
 
-If you are using [[OkHttp|Using-OkHttp]] or [[Retrofit|Consuming-APIs-with-Retrofit]], make sure to include the [Stetho](http://facebook.github.io/stetho/) project.  You can also use Stetho project for inspecting your network traffic through Chrome.  There is no current support with Stetho with [[Android Async Http Client|Using-Android-Async-Http-Client]] as noted in this [issue](https://github.com/facebook/stetho/issues/116).
+If you are using [[OkHttp|Using-OkHttp]] or [[Retrofit|Consuming-APIs-with-Retrofit]], make sure to include the [[Stetho|Debugging with Stetho]] project.  You can also use Stetho project for inspecting your network traffic through Chrome.  There is no current support with Stetho with [[Android Async Http Client|Using-Android-Async-Http-Client]] as noted in this [issue](https://github.com/facebook/stetho/issues/116).
 
 <img src="http://facebook.github.io/stetho/static/images/inspector-network.png"/>
 
@@ -54,6 +54,20 @@ If Android Studio starts freezing up or crashing even after rebooting the IDE or
 ```
 
 and then uninstall Android Studio and re-install the latest stable version. This should allow you to boot Android Studio again without errors.
+
+### Android Studio Design Pane isn't loading properly 
+
+If you find yourself opening up a layout file and not seeing the design pane rendering correctly such as:
+
+<img src="http://i.imgur.com/DaArMlC.png" width="300" />
+
+We can try the following steps to get this functioning again:
+
+ * Try changing the API version selected in the dropdown and try a few different versions
+ * Click the "refresh" icon at the top right of the design pane
+ * Select `File -> Invalidate Caches / Restart` and restart Android Studio
+
+You may need to install the newest version of Android and select that version within the dropdown for the pane to work as expected. 
 
 ### Seeing `Unable to execute dex: method ID` when compiling
 

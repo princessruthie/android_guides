@@ -22,7 +22,7 @@ Let's setup Parse into a brand new Android app following the steps below.
     
     ```gradle
     dependencies {
-      compile 'com.parse:parse-android:1.13.0'
+      compile 'com.parse:parse-android:1.13.1'
       compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
     }
     ```
@@ -65,6 +65,20 @@ Let's setup Parse into a brand new Android app following the steps below.
     />
     ```
 
+* Add your `YOUR_APPLICATION_ID` to the `<meta-data>` tag inside your `<application>` in your `AndroidManifest.xml`:
+
+    ```xml
+    <application
+        ...>
+        <!-- activities and everything here. meta-data last inside application tag -->
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="{YOUR_APPLICATION_ID_HERE}" />
+    />
+    ```
+
+**WARNING:** Be sure to **add the application name** above after creating the custom Application class or the following code won't work!! Also be **sure to add the application id** inside the manifest as wel. 
+
 ## 3. Design Messages Layout
 
 Let's create an XML layout which allows us to post messages by typing into a text field. Open your layout file `activity_chat.xml`, add an `EditText` and a `Button` to compose and send text messages.
@@ -74,8 +88,7 @@ Let's create an XML layout which allows us to post messages by typing into a tex
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:layout_height="match_parent" >
 
     <EditText
         android:id="@+id/etMessage"
@@ -188,8 +201,12 @@ public class ChatActivity extends AppCompatActivity {
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                    	Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                        if(e == null) {
+                    	    Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                              Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "Failed to save message", e);
+                        }
                     }
                 });
                 etMessage.setText(null);
@@ -358,14 +375,22 @@ void setupMessagePosting() {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                ParseObject message = ParseObject.create("Message");
-                message.put(**Message.USER_ID_KEY**, ParseUser.getCurrentUser().getObjectId());
-                message.put(**Message.BODY_KEY**, data);
+                //ParseObject message = ParseObject.create("Message");
+                //message.put(Message.USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+                //message.put(Message.BODY_KEY, data);
+                // Using new `Message` Parse-backed model now
+                Message message = new Message();
+                message.setBody(data);
+                message.setUserId(ParseUser.getCurrentUser().getObjectId());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
+                        if(e == null) {
+                    	    Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                             Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "Failed to save message", e);
+                        }
                     }
                 });
                 etMessage.setText(null);
@@ -483,9 +508,13 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                ParseObject message = ParseObject.create("Message");
-                message.put(Message.USER_ID_KEY, userId);
-                message.put(Message.BODY_KEY, data);
+                //ParseObject message = ParseObject.create("Message");
+                //message.put(Message.USER_ID_KEY, userId);
+                //message.put(Message.BODY_KEY, data);
+                // Using new `Message` Parse-backed model now
+                Message message = new Message();
+                message.setBody(data);
+                message.setUserId(ParseUser.getCurrentUser().getObjectId());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -503,7 +532,7 @@ public class ChatActivity extends AppCompatActivity {
     void refreshMessages() {
         // TODO:
     }
-...
+    ...
 }
 ```
 
@@ -514,7 +543,7 @@ Now we can fetch last 500 messages from parse and bind them to the ListView with
 ```java
 public class ChatActivity extends AppCompatActivity {
 ...
-    static final int MAX_CHAT_MESSAGES_TO_SHOW = 500;
+    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 ...
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
@@ -522,13 +551,14 @@ public class ChatActivity extends AppCompatActivity {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         // Configure limit and sort order
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-        query.orderByAscending("createdAt");
+        query.orderByDescending("createdAt");
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
                     mMessages.clear();
+                    Collections.reverse(messages);
                     mMessages.addAll(messages);
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
@@ -578,7 +608,6 @@ protected void onCreate(Bundle savedInstanceState) {
     }
     mHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 }
-
 ```
 
 See the [[repeating periodic tasks|Repeating-Periodic-Tasks#handler]] guide to learn more about the handler.

@@ -126,14 +126,6 @@ retrolambda {
 }
 ```
 
-### Converting Lambda Expressions with Android Studio
-
-If you wish to convert your code to lambda expressions, move your cursor to the slightly greyed out section of your anonymous class and look on the left-hand side of the Android Studio editor for the light bulb:
-
-<img src="http://imgur.com/KDzMS8l.png"/>
-
-Once you see the `Replace with lambda` appear, you can also apply `Fix all` click on the left-hand side to convert all the possible candidates automatically:
-
 #### Limitations
 
 * Using the Android lint detector will trigger a `java.lang.UnsupportedOperationException: Unknown ASTNode child: LambdaExpression`.  To get around this [issue](https://github.com/evant/gradle-retrolambda/issues/96), you need to add this third-party package that replaces the parsing engine for Java to support lamda expressions:
@@ -152,9 +144,9 @@ buildscript {
 -dontwarn java.lang.invoke.*
 ```
 
-### Using Jack Toolchain
+### Jack Toolchain Setup (Experimental)
 
-Android provided a way to use some Java 8 language features including `lambda expressions` in your Android project by enabling the **Jack toolchain**. To do this, edit your module level `build.gradle` file as follows:
+Android provided a way to use some Java 8 language features including `lambda expressions` in your Android project by enabling the **Jack toolchain**.  You should not use this approach currently since it is still experimental.  To do this, edit your module level `build.gradle` file as follows:
 
 ```groovy 
 android {
@@ -181,6 +173,21 @@ Sync your gradle file, if you encounter any build error, you may need to downloa
 * Because Jack does not generate intermediate class files when compiling an app, tools that depend on these files for example, lint detectors, do not currently work with Jack. 
 
 * Annotation support for libraries such as [[Dagger 2|Dependency-Injection-with-Dagger-2]] to show you in your Android project may not work with Jack.  The most recent experimental releases are starting to add [this support](http://stackoverflow.com/questions/31789967/new-jack-toolchain-crashes-when-using-android-apt-plugin).
+
+## Converting Lambda Expressions with Android Studio
+
+If you wish to convert your code to lambda expressions, move your cursor to the slightly greyed out section of your anonymous class and look on the left-hand side of the Android Studio editor for the light bulb:
+
+<img src="http://imgur.com/KDzMS8l.png"/>
+
+Once you see the `Replace with lambda` appear, you can also apply `Fix all` click on the left-hand side to convert all the possible candidates automatically as [outlined here](http://stackoverflow.com/a/36746855).
+
+## Troubleshooting
+
+* Getting `An exception has occurred in the compiler (1.8.0_05)` or `com.sun.tools.javac.code.Symbol$CompletionFailure` or `java.lang.invoke.MethodType not found`? 
+  * Try swapping the order of `apply plugin: 'retrolambda'` and `apply plugin: "android"`. 
+  * Check the path to the JDK in Android Studio settings to ensure correctness.
+  * Check the path to the JDK in `build.gradle` to ensure correctness and consistency. 
 
 ## Attribution
 

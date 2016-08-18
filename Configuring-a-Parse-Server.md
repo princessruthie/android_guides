@@ -59,7 +59,7 @@ After deployment, try to connect to the site.  You should see `I dream of being 
 Next, make sure you can create Parse objects.  You do not need a client Key to write new data:
 
 ```bash
-curl -X POST -H "X-Parse-Application-Id: myAppId" -H "X-Parse-Master-Key: abc" \
+curl -X POST -H "X-Parse-Application-Id: myAppId" \
 -H "Content-Type: application/json" \
 -d '{"score":1337,"playerName":"Sean Plott","cheatMode":false}' \
 https://yourappname.herokuapp.com/parse/classes/GameScore
@@ -125,7 +125,7 @@ Make sure you have the latest Parse-Android SDK in your `app/build.gradle` file.
 
 ```gradle
 dependencies {
-    compile 'com.parse:parse-android:1.13.0'
+    compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
     compile 'com.parse.bolts:bolts-android:1.+'
 }
@@ -147,7 +147,7 @@ If you are migrating from a previous Parse configuration, make sure to delete th
 Modify your `Parse.initialize()` command to point to this newly created server.  You must be on the latest Parse Android SDK to have these options.
 
 ```java
-public class ChatApplication extends Application {
+public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -302,7 +302,7 @@ Body : {
    "deviceType": "android",
    "appIdentifier": "com.test",
    "installationId": "XXXX",
-   "parseVersion": "1.13.0",
+   "parseVersion": "1.13.1",
    "appName": "PushNotificationDemo",
    "timeZone": "America\/New_York"
 }

@@ -16,22 +16,33 @@ To get started setting up our own Parse backend, check out our [[configuring a P
 
 A comprehensive list of alternatives can be [reviewed here](https://github.com/relatedcode/ParseAlternatives). You can also review [Parse migration tools](http://blog.parse.com/announcements/introducing-parse-server-and-the-database-migration-tool/) and setup your own MongoDb/NodeJS server and leverage the existing Parse client SDK's.
 
-## Registration
+## What is Parse?
 
-First, we need to [sign up for a Parse account](https://www.parse.com/#signup) unless we are already registered. 
+Parse is an open-source Android SDK and back-end solution that enables developers to build mobile apps with shared data quickly and without writing any back-end code or custom APIs. 
+
+<img src="http://i.imgur.com/LylIn7w.png" />
+
+Parse is a Node.js application which is deployed onto a host such as Heroku (or AWS) and then creates an automatic API for user authentication and storing data to a MongoDB document store. Parse has the following features included by combining the mobile SDK and back-end service:
+
+ * User registration and authentication
+ * Connecting user with Facebook to create a user account. 
+ * Creating, querying, modifying and deleting arbitrary data models
+ * Makes sending push notifications easier
+ * Uploading files to a server for access across clients
+
+In short, Parse makes building mobile app ideas much easier! 
 
 ## Setup
 
-Make sure you have an app prepared that you would like to integrate with Parse. Follow the steps on the [existing app page](https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing) and make sure to edit the `app/build.gradle` file to make any changes (not the top-level `build.gradle` file). 
+Setting up Parse starts with [[deploying your own Parse instance|Configuring-a-Parse-Server#setting-a-new-parse-server]] to Heroku or another app hosting provider.
 
-<a target="_blank" href="https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing"><img src="http://i.imgur.com/tCJeWnk.png" alt="screen_1" width="500" /></a>
-
-Don't add anything to the **libs** directory. Open the `app/build.gradle` in your project and add the following dependencies:
+Open the `app/build.gradle` in your project and add the following dependencies:
 
 ```gradle
 dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
+    compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
 }
 ```
 
@@ -41,23 +52,25 @@ Next, we need to create an `Application` class and initialize Parse. Be sure to 
 
 ```java
 public class ParseApplication extends Application {
-    public static final String YOUR_APPLICATION_ID = "AERqqIXGvzH7Nmg45xa5T8zWRRjqT8UmbFQeeI";
-    public static final String YOUR_CLIENT_KEY = "8bXPznF5eSLWq0sY9gTUrEF5BJlia7ltmLQFRh";
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // Add your initialization code here
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
-
-        // ...
-  }		
+        // set applicationId, and server server based on the values in the Heroku settings.
+        // clientKey is not needed unless explicitly configured
+        // any network interceptors must be added with the Configuration Builder given this syntax
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("myAppId") // should correspond to APP_ID env variable
+                .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
+                .addNetworkInterceptor(new ParseLogInterceptor())
+                .server("https://my-parse-app-url.herokuapp.com/parse/").build());
+    }
 }
 ```
 
-We also need to make sure to set the application instance above as the `android:name` for the application within the `AndroidManifest.xml`. This change in the manifest determines which application class is instantiated when the app is launched:
+The `/parse/` path needs to match the `PARSE_MOUNT` environment variable, which is set to this value by default.
+
+We also need to make sure to set the application instance above as the `android:name` for the application within the `AndroidManifest.xml`. This change in the manifest determines which application class is instantiated when the app is launched and also adding the application ID metadata tag:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -66,11 +79,14 @@ We also need to make sure to set the application instance above as the `android:
     android:versionCode="1"
     android:versionName="1.0" >
     <application
-        android:allowBackup="true"
-        android:name="com.codepath.example.parsetododemo.ParseApplication"
+        android:name=".ParseApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!-- activities and everything are here. meta-data is last inside application tag -->
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="YOUR_APPLICATION_ID_HERE" />
     </application>
 </manifest>
 ```
@@ -102,10 +118,10 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-      	// Add your initialization code here
-      	Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+      	// Your initialization code from above here
+      	Parse.initialize(...);
     
-        // Test creation of object
+        // New test creation of object below
       	ParseObject testObject = new ParseObject("TestObject");
       	testObject.put("foo", "bar");
       	testObject.saveInBackground();
@@ -113,7 +129,7 @@ public class ParseApplication extends Application {
 }
 ```
 
-Run your app and a new object of class TestObject will be sent to the Parse Cloud and saved. Click on the "Test" button back on the [Parse quickstart guide](https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing) to confirm data was successfully transmitted.
+Run your app and a new object of class `TestObject` will be sent to the Parse Cloud and saved. Click on the "Test" button back on the [Parse quickstart guide](https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing) to confirm data was successfully transmitted.
 
 <img src="https://i.imgur.com/YloGilR.png" alt="screen_3" width="500" />
 
@@ -666,7 +682,7 @@ Next, you will need to include Parse's [FacebookUtils](https://github.com/ParseP
 dependencies {
   compile 'com.facebook.android:facebook-android-sdk:4.10.0'
   compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
-  compile 'com.parse:parse-android:1.13.0'
+  compile 'com.parse:parse-android:1.13.1'
 }
 ```
 

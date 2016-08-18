@@ -2,7 +2,7 @@
 
 Android has now released a stable data-binding library which allows you to connect views with data in a much more powerful way than was possible previously. Applying data binding can improve your app by removing boilerplate for data-driven UI and allowing for two-way binding between views and data objects. 
 
-The Data Binding Library is a support library that is compatible with all recent Android versions.
+The Data Binding Library is a support library that is compatible with all recent Android versions. See [this official video from Google](https://www.youtube.com/watch?v=5sCQjeGoE7M) for a brief overview.
 
 ### Setup
 
@@ -216,15 +216,61 @@ public class BindingAdapterUtils {
 }
 ```
 
+### Event Handling
+
+Data Binding allows you to write expressions handling events that are dispatched from the views (e.g. onClick). To attach events to views, we can use [method references](https://developer.android.com/topic/libraries/data-binding/index.html#method_references) or [listener bindings](https://developer.android.com/topic/libraries/data-binding/index.html#listener_bindings).
+
+### List Adapters with Binding
+
+We can inflate the layout XML for a list item `item_user.xml` within an adapter using:
+
+```java
+ItemUserBinding binding = ItemUserBinding.inflate(layoutInflater, viewGroup, false);
+```
+
+Refer to these tutorials for how to work with data binding in `RecyclerView` or `ListView`:
+
+ * [Using data binding in RecyclerView](http://mutualmobile.com/posts/using-data-binding-api-in-recyclerview).
+ * [RecyclerView and Data Binding](https://www.jayway.com/2015/12/08/recyclerview-and-databinding/)
+ * [Simple code for data binding in the RecyclerView](https://newfivefour.com/android-databinding-recyclerview.html)
+ * [Descent into data binding tutorial](https://www.bignerdranch.com/blog/descent-into-databinding/)
+
+### Data Binding and the Include Tag
+
+Refer to the following resources related to the include tag and binding:
+
+ * [Includes tag with binding](https://developer.android.com/topic/libraries/data-binding/index.html#includes)
+ * [Data binding with include tag](https://medium.com/google-developers/android-data-binding-that-include-thing-1c8791dd6038#.ptysrnqqo)
+ * [Imports and Includes with Data Binding](http://mobikul.com/imports-includes-data-binding/)
+
 ### Two Way Data Binding
 
 If you want to have a two-way binding between the view and the data source, check out this [handy 2-way data binding tutorial](https://medium.com/@fabioCollini/android-data-binding-f9f9d3afc761#.6h923gix6).
 
 ### Troubleshooting
 
-* If you see an error message such as `**.**.databinding does not exist`, it's likely that there is an error in your data binding template.  Make sure to look for errors (i.e. forgetting to import a Java class when referencing it within your template).
+**Issues with the Binding Class**
 
-* If you are using the data binding library with [[Dagger 2|Dependency Injection With Dagger 2]], you may see errors such as `NoSuchMethodError: ...FluentIterable.append(...)`.  The solution to this fix is to add the Guava library before the Dagger compiler.  There appears to be a known [issue](https://code.google.com/p/android/issues/detail?id=205589) that can only be resolved by forcing the Dagger compiler to use a newer Guava version (Dagger 2 appears to have an older version of Guava bundled and without an explicit dependency it uses this version).
+If you see an error message such as `cannot resolve symbol 'ActivityMainBinding'` then this means that the data binding auto-generated class has not been created. Check the following to resolve the issue:
+
+ 1. Make sure you have the proper `dataBinding.enabled = true` in gradle and trigger "Sync with Gradle"
+ 2. Open the layout file and ensure that the XML file is valid and is wrapped in a `<layout>` tag.
+ 3. Check the **layout file for the correct name** i.e `activity_main.xml` maps to `ActivityMainBinding.java`.
+ 4. Run `File => Invalidate Caches / Restart` to clear the caches. 
+ 4. Run `Project => Clean` and `Project => Re-Build` to regenerate the class file.
+ 5. Restart Android Studio again and then try the above steps again.
+ 
+**Databinding does not exist messages**
+
+If you see an error message such as `**.**.databinding does not exist`, it's likely that there is an error in your data binding template.  Make sure to look for errors (i.e. forgetting to import a Java class when referencing it within your template).
+
+**Databinding is not picking up certain layout fields**
+
+Be sure to `Project -> Clean` and `Project -> Rebuild Project` the project in order to regenerate the binding classes with latest layout properties. 
+
+**Dagger 2 compatibility errors**
+
+If you are using the data binding library with [[Dagger 2|Dependency Injection With Dagger 2]], you may see errors such as `NoSuchMethodError: ...FluentIterable.append(...)`.  The solution to this fix is to add the Guava library before the Dagger compiler.  There appears to be a known [issue](https://code.google.com/p/android/issues/detail?id=205589) that can only be resolved by forcing the Dagger compiler to use a newer Guava version (Dagger 2 appears to have an older version of Guava bundled and without an explicit dependency it uses this version).
 
 ```gradle
 apt 'com.google.guava:guava:19.0' // add above dagger-compiler
@@ -238,3 +284,5 @@ apt 'com.google.dagger:dagger-compiler:2.5'
 * <https://realm.io/news/data-binding-android-boyar-mount/>
 * <https://www.captechconsulting.com/blogs/android-data-binding-tutorial>
 * <http://www.survivingwithandroid.com/2015/08/android-data-binding-tutorial-2.html>
+* <https://www.bignerdranch.com/blog/descent-into-databinding/>
+* <https://stfalcon.com/en/blog/post/faster-android-apps-with-databinding>

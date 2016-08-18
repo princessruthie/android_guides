@@ -2,12 +2,13 @@
 
 [Genymotion](http://www.genymotion.com/) is an incredibly fast, memory-efficient VM that runs the Android OS in a more accurate manner than even the official emulator. Many Android developers do all their device testing using this emulator especially when Google Play services is concerned.  In addition, the official Android emulator is plagued with a lot of bugs (i.e. intermittent network loss) that Genymotion is usually a far more reliable option.
 
-To setup your genymotion emulator [sign up](https://www.genymotion.com/account/login/) and follow the [installation guide](https://docs.genymotion.com/Content/Home.htm):
+To setup your genymotion emulator [sign up](https://www.genymotion.com/account/login/) and follow the [installation guide](https://docs.genymotion.com/Content/Home.htm).  
 
 #### Installation
 
 1. Sign up for an account on the [Genymotion Website](https://www.genymotion.com/account/login/)
-2. Install [VirtualBox 5.0](https://www.virtualbox.org/wiki/Downloads), a powerful free virtualization software for Genymotion to run.  
+2. Install [the latest VirtualBox](https://www.virtualbox.org/wiki/Downloads), a powerful free virtualization software for Genymotion to run.  
+   * If you already have VirtualBox installed, be sure to open and upgrade to the latest version.
 3. [Download Genymotion Emulator v2.7.0 or higher](https://www.genymotion.com/download/) for your platform.  
 4. Install the Genymotion Emulator
   * Windows: Run the MSI installer
@@ -60,7 +61,10 @@ See [this link](http://stackoverflow.com/questions/38275500/genymotion-virtualbo
 
 **NOTE**: These steps need to be followed only if you want to be able to use Google services such as maps and push messaging on your Genymotion device. For basic testing, these steps can be safely skipped.
 
+Check out [this handy youtube video](https://www.youtube.com/watch?v=UFhStnF42tw) for a guided step-by-step of enabling play services in Genymotion. You may want to use a newer version of these files based on the desired emulator as found below. 
+
 1. Download the [ARM Translation Installer v1.1](http://www14.zippyshare.com/v/44278764/file.html) and drag and drop the zip file onto the running Genymotion emulator device.  The ARM emulator is only needed for apps that trigger a `INSTALL_FAILED_CPU_ABI_INCOMPATIBLE` error.
+  * **Note:** If you get `Files successfully copied` message, you need to make sure there **are no spaces in the filename**. Remove any spaces from the name of your zip file before dragging to ensure the file is detected as flashable.
 
 2. You must **close and restart the emulator** fully before continuing.
 
@@ -80,6 +84,7 @@ See [this link](http://stackoverflow.com/questions/38275500/genymotion-virtualbo
 
 5. When asked to flash the device, make sure to proceed with the installation.
    - At this point, 'Google Apps Services' will crash frequently with the message "google play services has stopped working".
+   - **Note:** If you get `Files successfully copied` message, you need to make sure there **are no spaces in the filename**. Remove any spaces from the name of your zip file before dragging to ensure the file is detected as flashable.
 
 6. You must **close and restart the emulator** so that Google Play Store can be installed.
 
@@ -134,5 +139,16 @@ Keep running `./adb devices` until you see a device show up in that list:
 List of devices attached
 192.168.57.101:5555	device
 ```
+
+### Connecting to VPN sites
+
+If you are trying to use a VPN client to connect to an internal web site, open VirtualBox and select the emulator image.  Click on Settings and make sure `Adapter 1` is disabled.   
+
+<img src="http://i.imgur.com/9tFR6We.png"/>
+
+Verify that `Adapter 2` is selected for NAT, which will force connections to be routed through your machine.
+
+<img src="http://i.imgur.com/ZFQMnaE.png"/>
+
 
 That's it! Try running the app again.

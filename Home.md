@@ -52,6 +52,7 @@ If you are an experienced engineer with 2+ years of professional experience in s
 * [[Debugging Exceptions within your App]] (App crashing?)
 * [Debugging Android App Slides](https://docs.google.com/presentation/d/1DUigTm6Uh43vatHkB4rFkVVIt1zf7zB7Z5tpGTy2oFY/edit?usp=sharing)
 * [[Troubleshooting Common Issues]] (Running into problems?)
+* [[Debugging with Stetho]] (use Chrome developer tools to help troubleshoot)
 
 **External Resources**. Great external content to explore.
 
@@ -82,6 +83,7 @@ Exploring the core of app development:
 * [[App Permissions|Understanding App Permissions]] (How to request the permissions you need) 
 * [[Managing Runtime Permissions with PermissionsDispatcher]]
 * [[Replacing Enums with Enumerated Annotations]] (StringDef, IntDef for validated types)
+* [[Understanding the Android Application Class]] (Custom application object)
 
 ## Views and Layouts
 
@@ -203,6 +205,7 @@ Exploring the strategies for data persistence:
 * [[DBFlow ORM Guide|DBFlow-Guide]] (Installation, Queries)
 * [[Easier SQL with Cupboard]]
 * [[Powerful Persistence with JDXA ORM]]
+* [[Storing Secret Keys in Android]] (API keys, credentials)
 
 ## Fragments
 

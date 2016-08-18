@@ -106,7 +106,7 @@ Next, we must make the Toolbar responsive to scroll events using a container lay
  </android.support.design.widget.AppBarLayout>
 ```
 
-**Note**: AppBarLayout currently expects to be the first child nested within a CoordinatorLayout according to the official [Google docs] (http://developer.android.com/reference/android/support/design/widget/AppBarLayout.html).
+**Note**: AppBarLayout currently expects to be the direct child nested within a CoordinatorLayout according to the official [Google docs] (http://developer.android.com/reference/android/support/design/widget/AppBarLayout.html).
 
 Next, we need to define an association between the AppBarLayout and the View that will be scrolled.  Add an `app:layout_behavior` to a RecyclerView or any other View capable of nested scrolling such as [NestedScrollView](http://stackoverflow.com/questions/25136481/what-are-the-new-nested-scrolling-apis-for-android-l).  The support library contains a special string resource `@string/appbar_scrolling_view_behavior` that maps to [AppBarLayout.ScrollingViewBehavior](https://developer.android.com/reference/android/support/design/widget/AppBarLayout.ScrollingViewBehavior.html), which is used to notify the `AppBarLayout` when scroll events occur on this particular view.  The behavior must be established on the view that triggers the event.
 
@@ -178,7 +178,12 @@ At this point, you should notice that the Toolbar responds to scroll events.
 If we want to create the collapsing toolbar effect, we must wrap the Toolbar inside CollapsingToolbarLayout:
 
 ```xml
-<android.support.design.widget.CollapsingToolbarLayout
+<android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -194,6 +199,7 @@ If we want to create the collapsing toolbar effect, we must wrap the Toolbar ins
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
 
+    </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CollapsingToolbarLayout>
 ```
 
